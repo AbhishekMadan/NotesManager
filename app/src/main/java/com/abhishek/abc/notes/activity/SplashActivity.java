@@ -9,6 +9,19 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        registerUser();
+    }
+
+    private void registerUser() {
+
+    }
+
+    private void startApplication() {
         Intent intent = new Intent(SplashActivity.this,MainActivity.class);
         startActivity(intent);
         finish();

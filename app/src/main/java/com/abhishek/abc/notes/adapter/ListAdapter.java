@@ -26,7 +26,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
     private Context mContext;
     private ArrayList<NotesModel> mList;
 
-    ListAdapter (Context context, ArrayList<NotesModel> list) {
+    public ListAdapter (Context context, ArrayList<NotesModel> list) {
         mContext = context;
         mList = list;
     }
@@ -89,7 +89,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
 
         public ViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(itemView);
+            ButterKnife.bind(this,itemView);
         }
     }
 }

@@ -1,23 +1,29 @@
 package com.abhishek.abc.notes.network.models;
 
-public class NotesModel {
-    int mId;
-    String mNote;
-    String mTimestamp;
+import com.google.gson.annotations.SerializedName;
+
+public class NotesModel extends BaseResponse{
+
+    @SerializedName("id")
+    int id;
+    @SerializedName("name")
+    String note;
+    @SerializedName("timestamp")
+    String timestamp;
 
     public int getId() {
-        return mId;
+        return id;
     }
 
     public String getNote() {
-        return mNote;
+        return note;
     }
 
     public void setNote(String note) {
-        this.mNote = note;
+        this.note = note;
     }
 
     public String getTimestamp() {
-        return mTimestamp;
+        return timestamp;
     }
 }

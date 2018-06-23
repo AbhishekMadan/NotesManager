@@ -13,6 +13,7 @@ import com.abhishek.abc.notes.utils.PrefUtil;
 import java.util.UUID;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 
@@ -20,6 +21,7 @@ public class SplashActivity extends AppCompatActivity {
 
     private NetworkInterface networkInterface;
     private final String TAG="NOTE_SP_ACTY";
+    private CompositeDisposable disposable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +31,7 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        disposable = new CompositeDisposable();
         if (PrefUtil.getAPIKey(this)==null) {
             registerUser();
         } else {
@@ -40,7 +43,8 @@ public class SplashActivity extends AppCompatActivity {
         networkInterface = NetworkClient.getClient(this).create(NetworkInterface.class);
         // unique id to identify the device
         String uniqueId = UUID.randomUUID().toString();
-        networkInterface.register(uniqueId)
+        disposable.add(
+                networkInterface.register(uniqueId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new DisposableSingleObserver<UserModel>() {
@@ -55,12 +59,13 @@ public class SplashActivity extends AppCompatActivity {
                         Log.d(TAG,"Error registering device");
                         finish();
                     }
-                });
+                }));
     }
 
     private void launchMainActivity() {
         Intent intent = new Intent(SplashActivity.this,MainActivity.class);
         startActivity(intent);
+        disposable.clear();
         finish();
     }
 }
